@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<!-- URL List -->
+<h1 class="">List of Urls</h1>
+<div class="py-5">
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Long URL</th>
+                <th>Short URL</th>
+                <th>Creation Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in urls %}
+            <tr>
+                <td>{{ url.id }}</td>
+                <td><a href="{{ url_for('view_url', id=url.id) }}">{{ url.name }}</a></td>
+                <td>{{ url.long_url }}</td>
+                <td>{{ url.short_url }}</td>
+                <td>{{ url.created_date }}</td>
+                <td><a href="{{ url_for('update_url', id=url.id) }}">Update</a> | <a href="{{ url_for('delete_url', id=url.id) }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% endblock %}
