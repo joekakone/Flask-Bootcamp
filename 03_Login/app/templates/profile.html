@@ -2,7 +2,11 @@
 
 {% block main %}
 <!-- URL Details -->
+{% if current_user.is_authenticated and current_user.id == user.id %}
 <h1 class="">Hello {{ user.username }} !</h1>
+{% else %}
+<h1 class="">Users/{{ user.username }}</h1>
+{% endif %}
 <div class="py-5">
     <table class="table">
         <thead class="table-dark">
@@ -31,8 +35,6 @@
         {% if current_user.is_authenticated and current_user.id == user.id %}
         <a href="{{ url_for('create_url') }}"><button type="button" class="btn btn-primary">Create</button></a>
         <a href="{{ url_for('logout', id=user.id) }}"><button type="button" class="btn btn-danger">Logout</button></a>
-        {% else %}
-        <a href="{{ url_for('login') }}"><button type="button" class="btn btn-primary">Login</button></a>
         {% endif %}
     </div>
 
@@ -45,7 +47,9 @@
                     <th>Long URL</th>
                     <th>Short URL</th>
                     <th>Creation Date</th>
+                    {% if current_user.is_authenticated and current_user.id == user.id %}
                     <th>Action</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +60,9 @@
                     <td>{{ url.long_url }}</td>
                     <td><a href="{{ url_for('redirection', hashid=url.short_url.split('/')[-1]) }}" _target="blank">{{ url.short_url }}</a></td>
                     <td>{{ url.created_date }}</td>
-                    <td><a href="{{ url_for('update_url', id=url.id) }}">Update</a> | <a href="{{ url_for('delete_url', id=url.id) }}">Delete</a></td>
+                    {% if current_user.is_authenticated and current_user.id == user.id %}
+                    <td><a href="{{ url_for('update_url', id=url.id) }}">Edit</a> | <a href="{{ url_for('delete_url', id=url.id) }}">Delete</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
